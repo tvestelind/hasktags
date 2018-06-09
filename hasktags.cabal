@@ -76,7 +76,9 @@ Executable hasktags
       base,
       directory,
       filepath,
-      hasktags
+      hasktags,
+      optparse-applicative,
+      ansi-wl-pprint
     ghc-options: -Wall
     default-language: Haskell2010
 
