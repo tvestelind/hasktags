@@ -6,7 +6,7 @@ import Hasktags
 
 import Data.Monoid
 import Options.Applicative
-import Text.PrettyPrint.ANSI.Leijen.Internal (text, line)
+import Options.Applicative.Help.Pretty (text, line)
 import System.IO (IOMode (AppendMode, WriteMode))
 
 data Options = Options
@@ -105,26 +105,25 @@ options = Options
 
 parseArgs :: IO Options
 parseArgs = execParser opts
-    where
-        opts = info (options <**> helper) $
-               fullDesc
-            <> progDescDoc (Just $
-                   replaceDirsInfo <> line <> line
-                <> symlinksInfo <> line <> line
-                <> stdinInfo)
+  where
+    opts = info (options <**> helper) $
+         fullDesc
+      <> progDescDoc (Just $
+          replaceDirsInfo <> line <> line
+          <> symlinksInfo <> line <> line
+          <> stdinInfo)
 
-        replaceDirsInfo = text $ "directories will be replaced by DIR/**/*.hs DIR/**/*.lhs"
-                ++ "Thus hasktags . tags all important files in the current"
-                ++ "directory."
-        symlinksInfo = text $ "If directories are symlinks they will not be followed"
-                ++ "unless you pass -L."
-        stdinInfo = text $ "A special file \"STDIN\" will make hasktags read the line separated file"
-                ++ "list to be tagged from STDIN."
+    replaceDirsInfo = text $ "directories will be replaced by DIR/**/*.hs DIR/**/*.lhs"
+      ++ "Thus hasktags . tags all important files in the current directory."
+    symlinksInfo = text $ "If directories are symlinks they will not be followed"
+      ++ "unless you pass -L."
+    stdinInfo = text $ "A special file \"STDIN\" will make hasktags read the line separated file"
+      ++ "list to be tagged from STDIN."
 
 main :: IO ()
 main = do
-   Options{..} <- parseArgs
-   generate _mode _files
+  Options{..} <- parseArgs
+  generate _mode _files
 
 -- Local Variables:
 -- dante-target: "exe:hasktags"
